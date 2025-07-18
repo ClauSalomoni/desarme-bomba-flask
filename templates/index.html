@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Imagem Interativa</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+  <!-- <link rel="stylesheet" href="estiloDARK.css"> -->
+  
+</head>
+<body>
+  
+  <h1 class="titulo">BOMBA RELÓGIO</h1>
+  
+  <h1 id="endmsg" style="display: none;">BOMBA DESARMADA COM SUCESSO!</h1>
+  <div class="container-botoes-linha">
+  
+    <div class="container-regras-nivel">
+      <button class="btn" onclick="mostrarRegrasJogo()" id="bRegras">Regras Jogo</button>
+      {% if nivel %}
+        <div id="nivelJogo">
+          Você está jogando o nível: <strong>{{ nivel }}</strong>
+        </div>
+      {% endif %}
+    </div>
+       {% if not nivel %}
+       <div class="container-niveis">
+      <p class="titulo-niveis">Escolha o nível de dificuldade:</p>
+        <form action="{{ url_for('escolher_nivel') }}" method="post">
+          <button name="nivel" value="facil" class="btnnivel">Fácil</button>
+          <button name="nivel" value="medio" class="btnnivel">Médio</button>
+          <button name="nivel" value="dificil" class="btnnivel">Difícil</button>
+        </form>
+      </div>
+      {% endif %}
+      
+      <button onclick="inicioTimer(this)" id="bIniciar" {% if not nivel %}disabled{% endif %}>Iniciar Timer</button>
+    </div>
+
+    <div id="regrasJogo">
+      <h2>Vamos as Regras:</h2>
+      <ul>
+        <li>Desarmar a bomba cortando os fios na ordem certa antes que o tempo acabe.</li>
+        <li>Para cortar os fios clique com o mouse na curvatura do fio (ponto mais alto).</li>
+        <li>Selecione um nível de dificuldade.</li>
+        <li>A bomba só será ativada depois de clicar no botão "Iniciar Timer".</li>
+        <li>Ao clicar em iniciar o tempo de 5 minutos começa.</li>
+        <li>Assim que iniciar a contagem aparecerá o botão do primeiro desafio.</li>
+        <li>Serão 4 desafios. Acerte o desafio e o proximo aparecerá.</li>
+        <li>Resolva os desafios de forma correta e receberá uma dica sobre a ordem dos fios a serem cortados.</li>
+        <li>Resolva de forma errada e terá uma redução de 10 segundos no timer.</li>
+        <li>Vence quem consegue desarmar a bomba dentro do tempo estipulado</li>
+      </ul>
+    </div>
+            
+  <div id="areaDicas">
+    <h2>GUIA PARA DESARME:</h2>
+    
+    <p id="dicaFio1"></p>
+    <p id="dicaFio2"></p>
+    <p id="dicaFio3"></p>
+    <p id="dicaFio4"></p>
+    
+  </div>
+  <!--Add div class layout e bomba-wraper para manter bomba e pontos absolute relative-->
+  
+  <div class="layout">
+        
+      <div class="bomba-wrapper">
+        <img src="{{ url_for('static', filename='imagens/bombarelogio.png') }}" alt="Imagem Exemplo" id="imagem1" class="imagem visivel"/>
+        <div class="ponto" id="fioverde" onclick="cortarFioVerde('Você clicou no fio verde')"></div>
+        <div class="ponto" id="fioroxo" onclick="cortarFioRoxo('Você clicou no fio roxo')"></div>
+        <div class="ponto" id="fioamarelo" onclick="cortarFioAmarelo('Você clicou no fio amarelo')"></div>
+        <div class="ponto" id="fiolaranja" onclick="cortarFioLaranja('Você clicou no fio laranja')"></div>
+        <div class="ponto" id="fiociano" onclick="cortarFioCiano('Você clicou no fio ciano')"></div> 
+        
+        <div class="timer" id="timer-display"></div>
+            
+        
+        <img src="" alt="" id="fioVerdeCortado" class="verde">
+        <img src="" alt="" id="fioRoxoCortado" class="roxo">
+        <img src="" alt="" id="fioAmareloCortado" class="amarelo">
+        <img src="" alt="" id="fioLaranjaCortado" class="laranja">    
+        <img src="" alt="" id="fioCianoCortado" class="ciano">
+        
+        <img src="{{ url_for('static', filename='imagens/emoji.jpg') }}" id="emoji" class="emoji escondido" />
+        <img src="{{ url_for('static', filename='imagens/bombaExpl.gif') }}" alt="BOOOM" id="explosao" style="display: none;">
+      
+      </div>
+    </div>
+   
+  <div class="painelDesafios">
+    <div class="desafio" id="desafio1">
+      <button class="btn" id="bDesafio1">DESAFIO 1</button>
+      <div id="palavra">
+        <p>Adivinhe a palavra. Digite com a ACENTUAÇÃO correta
+          Se não souber clique em enviar. Uma nova palavra
+          aparecerá mas voce PERDERÁ 10 segundos no timer
+          Boa sorte!
+        </p>
+        <div class="linha">
+          <h3>Palavra embaralhada:</h3>
+          <p id="palavra-embaralhada"></p>
+          <h3>Dica da Palavra:</h3>    
+          <p id="dica-palavra"></p>
+        </div>
+        <input type="text" id="respostaPalavra" autofocus placeholder="Digite a sua resposta:">
+        <button class="btn" id="verResposta">Enviar</button>
+        
+        <p id="resultado"></p>
+        
+      </div>
+    </div>
+    <div class="desafio" id="desafio2">
+      
+      <button class="btn" id="bCalculos">DESAFIO 2</button>
+      <div id="calculo">
+        <p>Matemática.
+          Resolva a opreração matematica e digite o resultado.
+          Podem haver resultados NEGATIVOS! Boa sorte!
+        </p>
+        <div class="linha">
+          <h3>Conta Matemática:</h3>
+          <p id="labelConta"></p>
+          <input type="number" id="conta" placeholder="Digite o resultado">
+        </div>
+        <button class="btn" id="resultadoCalculo">Enviar</button>
+        <p id="resultadoCalc"></p>
+      </div>
+    </div>
+    <div class="desafio" id="desafio3">
+      <button class="btn" id="bNumeros">DESAFIO 3</button>
+      <div id="numeros">
+      <p id="numeroSorteadoRegras">
+        
+      </p>
+      <div class="linha">
+        <h3>Adivinhe o Numero:</h3>
+        <input type="number" id="palpiteNumSort" placeholder="Digite o seu palpite">
+      </div>
+      <button class="btn" id="bResultadoPalpite">Enviar</button>
+
+      <p id="resultadoPalpite"></p>
+      <p id="registroPalpites"></p>
+    </div>
+    
+  </div>
+
+    <div class="desafio" id="desafio4">
+      
+      <button class="btn" id="bDesafio4">DESAFIO 4</button>
+      <div id="quadrados" class="oculto">
+          <p>Voce verá o quadrado maior mostrar uma sequencia de cores. Voce
+          terá de identificar a sequencia de cores clicando os quadrados menores na sequencia correta
+          
+        </p>
+        <div class="linha">
+          <h3>Sequencia de cores:</h3>
+          
+          <button id="bIniciarSequencia" class="btn">Ver Sequencia</button>
+        </div>
+        
+        <div class="containerQuadrados">
+          <div id="quadradoMaior"></div>
+          <div id="areaQuadrados"></div>
+        </div>
+            <div class="linha">
+            <button class="btn" id="btnLimparCores">Limpar</button>
+            <button class="btn" id="verRespostaSequencia">Enviar</button>
+        </div>
+          <p id="resultadoSequencia"></p>
+        
+      </div>
+    </div>
+
+    </div>
+
+    
+    <script>
+      const nivel = "{{ nivel }}";
+    </script>
+  
+   <script defer src="{{ url_for('static', filename='js/util.js') }}"></script>
+   <script defer src="{{ url_for('static', filename='js/timer.js') }}"></script>
+   <script defer src="{{ url_for('static', filename='js/desafios.js') }}"></script>
+   <script defer src="{{ url_for('static', filename='js/bomba.js') }}"></script>
+  </body>
+  
+</html>
+

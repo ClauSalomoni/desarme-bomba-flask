@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Ranking</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            background-color: #f9f7f1;
+            color: #333;
+            animation: fundoAnimado 2s ease-out infinite alternate;
+        }
+
+        @keyframes fundoAnimado {
+            0%   { background-color: #ffb3ba; }  /* rosa médio */
+            16%  { background-color: #ffdfba; }  /* laranja pêssego */
+            33%  { background-color: #ffffba; }  /* amarelo suave */
+            50%  { background-color: #baffc9; }  /* verde menta */
+            66%  { background-color: #bae1ff; }  /* azul bebê */
+            83%  { background-color: #dabaff; }  /* lilás médio */
+            100% { background-color: #ffb3ba; }  /* volta ao rosa */
+        }
+        
+
+        #titulo {
+            color: #333; /* cor fixa, sem animação */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fffaf0;
+        }
+
+        th {
+            background-color: #333;
+            color: #f9f7f1;
+            padding: 10px;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            font-size: 15px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #faf3e0;
+        }
+
+        tr:hover {
+            background-color: #baffc9;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="titulo">Placar dos Jogadores</h1>
+    <table>
+        <tr>
+            <th>Posição</th>
+            <th>Nome</th>
+            <th>Pontuação</th>
+            <th>Dificuldade</th>
+            
+        </tr>
+        {% for jogador in ranking %}
+        <tr>
+            <td>{{ loop.index }}</td>  <!-- começa em 1 -->
+            <td>{{ jogador.nome }}</td>
+            <td>{{ jogador.pontuacao }}</td>
+            <td>{{ jogador.dificuldade }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

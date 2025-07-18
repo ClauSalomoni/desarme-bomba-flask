@@ -1,0 +1,446 @@
+/* AGORA VAI */
+/*AQUI COMECA BOMBA, Fios, e imagem Bomba explodida*/
+body{
+  background-color: white;
+}
+
+.layout{
+position: relative;
+width: 500px; /* ajusta conforme imagem */
+height: 500px; /* ou altura da imagem da bomba */
+margin: 0 auto;
+margin-top: 10px;
+}
+
+
+.titulo{
+  text-align: center;
+  letter-spacing: 10px;
+  line-height: 20px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 40px;
+}
+
+.ponto {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.7;
+}
+#fioverde { top: 55px; left: 561px; }
+#fioroxo { top: 59px; left: 598px; }
+#fioamarelo { top: 66px; left: 642px; }
+#fiolaranja { top: 73px; left: 680px;}
+#fiociano { top: 80px; left: 720px;}
+#pontoee { top: 140px; left: 800px;}
+
+.imagem {
+position: absolute;
+margin-left: 300px;
+margin-top: 50px;
+width: 650px;
+z-index: 0;
+}
+
+
+.ciano {
+position: absolute;
+margin-left: 705px;
+margin-top: 80px ;
+width: 45px;
+z-index: 1;
+
+}
+
+.laranja {
+position: absolute;
+margin-left: 667.2px;
+margin-top: 73.6px ;
+width: 38px;
+z-index: 1;
+}
+
+.amarelo {
+position: absolute;
+margin-left: 630.2px;
+margin-top: 67.3px ;
+width: 38px;
+z-index: 1;
+}
+
+.roxo {
+position: absolute;
+margin-left: 585.7px;
+margin-top: 58px ;
+width: 38px;
+z-index: 1;
+}
+
+.verde {
+position: absolute;
+margin-left: 546.8px;
+margin-top: 53.6px ;
+width: 39.9px;
+z-index: 1;
+}
+
+.bomba-wrapper {
+position: relative;
+transform: scale(0.85); /* Reduz tudo proporcionalmente */
+transform-origin: center;
+margin-top: 10px;
+/* ou 'center' se quiser centralizar */
+}
+
+
+.emoji {
+position: absolute;
+top: 0px;
+left: 520px;
+width: 220px;
+/* transform: translate(-50%, -50%); */
+z-index: 10;
+}
+
+.escondido {
+display: none;
+}
+#endmsg{
+animation: movimento 2s infinite;
+position: absolute;
+top: 400px;
+left: 530px;
+font-size: 10px;
+/* transform: translate(-50%, -50%); */
+z-index: 10;
+
+}
+@keyframes movimento {
+from {
+transform: scale(0.1); color:#fc0606;
+}
+to {
+transform: scale(7); color: #05f34c;
+}
+}
+
+
+#explosao{
+position: absolute;
+margin-left: 300px;
+margin-top: 50px;
+width: 650px;
+z-index: 1000;
+display: none;
+}
+
+
+
+
+.painelDesafios {
+position: absolute; /* tira do fluxo */
+top: 150px; /* ajusta para onde quer que comece, mais para cima */
+left: 100px; /* ajusta para lado da bomba */
+width: 600px; /* largura do painel */
+overflow-y: auto;
+height: 80vh;
+display: flex;
+flex-direction: column;
+gap: 20px; /* espaço entre os desafios */
+width: 40%;
+z-index: 1;
+/* pode adicionar fundo, borda, etc */
+}
+
+
+#intro{
+font-weight: 300;
+text-align: center;
+padding: 3px;
+font-size: x-large;
+}
+#timer-display{
+position: absolute;
+top: 245px;
+left: 428px;
+font-size: 100px;
+color: red;
+padding: 8px;
+border-radius: 8px;
+z-index: 2;
+background-color: black;
+transform: rotate(10deg);
+margin: 10px;
+}
+#bIniciar{
+color: white;
+font-size: larger;
+background-color: black;
+padding: 5px;
+border-radius: 10px;
+margin: 1px;
+
+}
+#bIniciar:hover{
+  color: black;
+  background-color: white;
+}
+
+
+#bReiniciar{
+  justify-content: center;  /* Centraliza horizontalmente */
+  align-items: center;
+  display: flex;
+  color: white;
+  font-size: larger;
+  background-color: black;
+  padding: 5px;
+  border-radius: 10px;
+  margin-top: 3px;
+  margin-left: 50px;
+  width: 180px;
+}
+#bReiniciar:hover{
+  color: black;
+  background-color: white;
+}
+
+
+
+
+#palavra {
+width: 70%; /* ocupa metade da tela, deixando espaço à direita */
+padding: 1px;
+box-sizing: border-box;
+margin-bottom: 10px;
+align-items:flex-start
+}
+
+.linha {
+box-sizing: border-box;
+
+align-items: center;
+margin-bottom: 6px;
+text-align: center;
+}
+
+
+.linha p{
+       /* ocupa o resto do espaço na linha */
+padding: 6px 10px;
+background-color: #f2f2f2;
+border-radius: 6px;
+border: 1px solid #333;
+min-height: 10px; 
+box-sizing: border-box;
+
+}
+
+.linha h3 {
+text-align: center;
+margin-bottom: 10px;
+font-size: 24px;
+  /* largura fixa para alinhar os labels */
+font-weight: bold;
+color: #333;
+
+}
+
+
+#labelConta,
+#respostaPalavra,
+#respostaPalavraD,
+#conta,
+#palpiteNumSort {
+width: 50%;
+padding: 10px;
+font-size: large;
+margin-top: 10px;
+box-sizing: border-box;
+border: 1px solid #ccc;
+border-radius: 8px;
+display: block;
+margin: 10px auto;
+}
+#nivelJogo{
+  color: black;
+  font-size: 20px;
+  
+}
+
+.container-regras-nivel {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+#regrasJogo{
+display: none;
+position: absolute;
+background-color: lch(82.5% 63.37 128.65);
+text-align: justify;
+border: solid#333;
+border-radius: 8px;
+padding: 20px;
+margin-top: 10px;
+margin-bottom: 1px;
+margin-left: 1px;
+margin-right: 100px;
+z-index: 1000;
+}
+#regrasJogo.visivel{
+display: block;
+
+}
+.container-botoes-linha {
+  display: flex;
+  gap: 1rem; /* Espaço entre os botões e elementos */
+  align-items: center; /* Alinha verticalmente ao centro */
+}
+
+.btn{
+color: white;
+font-size: larger;
+background-color: black;
+padding: 5px;
+border-radius: 10px;
+text-align: center;
+margin: 1px;
+}
+.btn:hover{
+background-color: white;
+color: black;
+}
+
+
+.btnnivel{
+  color: white;
+  font-size: larger;
+  background-color: black;
+  padding: 5px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 1px;
+  position: relative; /* para poder usar z-index */
+  z-index: 10; /
+
+}
+.btnnivel:hover{
+  background-color: white;
+  color: black;
+
+}
+
+#areaDicas{
+width: 650px; /* mesma largura da bomba */
+margin-left: 600px; /* centraliza horizontalmente */
+text-align: center;
+padding: 5px;
+border-radius: 10px;
+animation: destaqueTexto .8s infinite alternate;
+}
+
+@keyframes destaqueTexto {
+from {
+color: #243104;
+}
+to {
+color: #f80303;
+}
+}
+.containerQuadrados {
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 10px; /* Espaço entre o quadrado maior e os menores */
+margin-top: 10px;
+}
+
+#areaQuadrados{     
+display: flex;
+flex-direction: row;
+
+gap: 10px;
+margin: 20px auto;
+color: #000;
+border-radius: 8px;
+}
+#quadrados {
+  display: flex;
+  flex-direction: column; /* empilha verticalmente */
+  gap: 15px; /* espaço vertical entre elementos */
+  width: 70%;
+}
+
+#quadradoMaior{
+width: 70px;
+height: 70px;
+border: 2px solid black;
+margin: 20px;
+background-color: white;
+display: flex;
+border-radius: 8px;
+justify-content: center;
+align-items: center;
+margin-left: 10px;
+
+}
+
+
+.celulas{
+height: 40px;
+width: 40px;
+color: #000;      
+border: 3px solid;
+display: flex;
+transition: transform 0.2s ease;
+cursor: pointer;
+border-radius: 8px;
+}
+#bIniciarSequencia{
+margin-left: 0px;
+}
+
+.desafio { 
+  display: none; 
+}
+#desafio1.ativo,
+#desafio2.ativo,
+#desafio3.ativo {
+  display: block;
+}
+
+/* Desafio 4 exibido como flex */
+#desafio4.ativo {
+  display: flex;
+  flex-direction: row;
+}
+.oculto {
+  display: none !important;
+}
+
+.btn.oculto { 
+  display: none; }
+
+#palavra, #calculo, #numeros, #quadrados, #quadradoMaior {
+  display: none;
+}
+#palavra.visivel, #calculo.visivel, #numeros.visivel {
+  display: block;
+}
+#quadrados.visivel {
+  display: flex;
+  flex-direction: column; /* ou row, conforme seu layout */
+  gap: 10px;
+}
+
+#quadradoMaior.visivel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

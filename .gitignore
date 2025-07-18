@@ -1,0 +1,47 @@
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment virtual
+venv/
+env/
+.venv/
+.env/
+
+
+
+# Pytest cache
+.pytest_cache/
+
+# Flask instance folder
+instance/
+
+# Logs
+*.log
+
+# VSCode settings
+.vscode/
+
+
+# Python packaging
+*.egg-info/
+dist/
+build/
+
+# Anaconda / Conda environment files
+*.conda
+*.condarc
+conda-meta/
+
+# Jupyter Notebook checkpoints (se usar notebooks)
+.ipynb_checkpoints/
+
+# Outros arquivos temporários do sistema
+.DS_Store
+Thumbs.db
+
+
+
