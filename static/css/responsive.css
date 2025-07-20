@@ -1,28 +1,5 @@
 @media (max-width: 768px) {
-
-  .layout {
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .imagem {
-    position: relative;
-    width: 90vw;
-    height: auto;
-    margin: 0 auto;
-  }
-
-  .bomba-wrapper {
-    position: relative;
-    width: 90vw;
-    max-width: 400px;
-    margin: 0 auto;
-    transform: scale(1);
-    transform-origin: top center;
-    z-index: 1;
-  }
+ 
   #explosao {
   position: absolute;
   top: 10%;           /* Ajuste para posicionar verticalmente dentro da bomba */
@@ -36,35 +13,63 @@
   margin: 0;          /* Remove margens que podem atrapalhar */
 }
 
-
-  #timer-display {
-  position: absolute;
-  top: 59%;
-  left: 53.5%;
-  transform: translate(-50%, -50%) rotate(10deg); /* Centraliza e rotaciona */
-  font-size: 10vw; /* Responsivo à largura da tela */
-  color: red;
-  background-color: black;
-  padding: 2vw;
-  border-radius: 8px;
-  z-index: 2;
-  margin: 0;
+.layout {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-  .ponto {
-    position: absolute;
-    width: 5vw;
-    height: 5vw;
-    cursor: pointer;
-    z-index: 3;
-  }
+/* Contêiner da bomba */
+.bomba-wrapper {
+  position: relative;
+  width: 90vw;
+  max-width: 400px;
+  aspect-ratio: 4 / 3; /* mantém proporção da bomba */
+  margin: 30px auto 0 auto; /* centraliza e separa da área de desafio */
+  transform-origin: top center;
+  z-index: 1;
+}
+
+/* Imagem da bomba ocupa toda a área do wrapper */
+.imagem {
+  margin-left: 0 !important;
+  margin-top: 0 !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* OU 'cover' se quiser preencher o espaço todo */
+  display: block;
+  z-index: 0;
+}
+
+/* Posição dos pontos clicáveis */
+.ponto {
+  position: absolute;
+  width: 5%;
+  height: 7%;
+  z-index: 2;
+}
+
+/* Timer */
+#timer-display {
+  position: absolute;
+  top: 55%;
+  left: 37%;
+  transform: translate(-50%, -50%) rotate(10deg);
+  font-size: 10vw;
+  color: red;
+  z-index: 3;
+}
 
   /* Posicionamento dos fios no mobile */
-  #fioverde   { top: 0%;  left: 52%; }
-  #fioroxo    { top: 1%;  left: 60%; }
-  #fioamarelo { top: 3%;  left: 69%; }
-  #fiolaranja { top: 4%;  left: 77%; }
-  #fiociano   { top: 5%;  left: 86%; }
+  #fioverde   { top: 2%;  left: 39%; }
+  #fioroxo    { top: 3%;  left: 45%; }
+  #fioamarelo { top: 5%;  left: 51.5%; }
+  #fiolaranja { top: 7%;  left: 57.5%; }
+  #fiociano   { top: 8%;  left: 64%;}
 
   #fioVerdeCortado,
   #fioRoxoCortado,
@@ -80,11 +85,11 @@
 }
 
 /* Ajustes de posição individuais */
-  #fioVerdeCortado   { top: 0%;  left: 52%; }
-  #fioRoxoCortado    { top: 1%;  left: 60%; }
-  #fioAmareloCortado { top: 3%;  left: 69%; }
-  #fioLaranjaCortado { top: 4%;  left: 77%; }
-  #fioCianoCortado   { top: 5%;  left: 86%; }
+  #fioVerdeCortado  { top: 2%;  left: 39%; }
+  #fioRoxoCortado    { top: 3%;  left: 45%; }
+  #fioAmareloCortado { top: 5%;  left: 51.5%; }
+  #fioLaranjaCortado { top: 7%;  left: 57.5%; }
+  #fioCianoCortado   { top: 8%;  left: 64%;}
 
 .painelDesafios {
   position: static; /* flui com a página */
@@ -106,7 +111,7 @@
   overflow-y: visible; /* sem scroll */
 }
 #desafio1 {
-    display: flex !important;
+   
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -150,24 +155,6 @@
   display: block;
 }
 
-.layout, .bomba-wrapper {
-  margin-top: 30px; /* espaço maior para separar da área do desafio */
-  width: 90vw;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative; /* manter posicionamento padrão */
-}
-
-.layout, .bomba-wrapper {
-  margin-top: 20px; /* afasta a bomba dos desafios */
-  width: 90vw;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-
   #areaDicas {
     width: 90vw;
     margin: 10px auto;
@@ -187,13 +174,13 @@
   }
 
   #areaQuadrados {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
   }
 
   .celulas {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
   }
 
   #quadrados {
@@ -226,3 +213,18 @@
 
 }
 
+.desafio {
+    display: none !important;  /* escondido por padrão */
+  }
+
+  #desafio1.ativo,
+  #desafio2.ativo,
+  #desafio3.ativo {
+    display: block !important;
+  }
+
+  #desafio4.ativo {
+    display: flex !important;
+    flex-direction: column; /* se quiser mudar layout no mobile */
+    gap: 10px;
+  }
