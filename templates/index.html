@@ -2,9 +2,10 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Imagem Interativa</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
-  <!-- <link rel="stylesheet" href="estiloDARK.css"> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
   
 </head>
 <body>
@@ -164,8 +165,8 @@
           <div id="areaQuadrados"></div>
         </div>
             <div class="linha">
+              <button class="btn" id="verRespostaSequencia">Enviar</button>
             <button class="btn" id="btnLimparCores">Limpar</button>
-            <button class="btn" id="verRespostaSequencia">Enviar</button>
         </div>
           <p id="resultadoSequencia"></p>
         
