@@ -5,7 +5,7 @@ Um jogo interativo criado com Python (Flask), HTML, CSS e JavaScript. O objetivo
 ## 🌐 Demo Online
 
 Este projeto sera publicado e disponível online em:  
-[Render](https://desarme-bomba-flask.onrender.com/)
+[Jogo Desarme a Bomba](https://desarme-bomba-flask.onrender.com/)
 
 ## 🚀 Tecnologias Utilizadas
 

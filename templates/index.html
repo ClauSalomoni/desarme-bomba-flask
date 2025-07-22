@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Imagem Interativa</title>
+  <title>Jogo Desarme a Bomba</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
   
@@ -46,10 +46,11 @@
         <li>A bomba só será ativada depois de clicar no botão "Iniciar Timer".</li>
         <li>Ao clicar em iniciar o tempo de 5 minutos começa.</li>
         <li>Assim que iniciar a contagem aparecerá o botão do primeiro desafio.</li>
-        <li>Serão 4 desafios. Acerte o desafio e o proximo aparecerá.</li>
+        <li>Serão 4 desafios. Acerte o desafio e o proximo estará disponível.</li>
         <li>Resolva os desafios de forma correta e receberá uma dica sobre a ordem dos fios a serem cortados.</li>
         <li>Resolva de forma errada e terá uma redução de 10 segundos no timer.</li>
-        <li>Vence quem consegue desarmar a bomba dentro do tempo estipulado</li>
+        <li>Vence quem consegue desarmar a bomba dentro do tempo estipulado.</li>
+        <li>Aos vencedores o direito de incluir o nome no Ranking. Os TOP 10 Aparecerão.</li>
       </ul>
     </div>
             
@@ -93,7 +94,7 @@
     <div class="desafio" id="desafio1">
       <button class="btn" id="bDesafio1">DESAFIO 1</button>
       <div id="palavra">
-        <p>Adivinhe a palavra. Digite com a ACENTUAÇÃO correta
+        <p>Adivinhe a palavra. Digite com a ACENTUAÇÃO correta.
           Se não souber clique em enviar. Uma nova palavra
           aparecerá mas voce PERDERÁ 10 segundos no timer
           Boa sorte!
@@ -150,12 +151,12 @@
       
       <button class="btn" id="bDesafio4">DESAFIO 4</button>
       <div id="quadrados" class="oculto">
-          <p>Voce verá o quadrado maior mostrar uma sequencia de cores. Voce
+          <p>Voce verá o quadrado maior mostrar uma sequência de cores. Voce
           terá de identificar a sequencia de cores clicando os quadrados menores na sequencia correta
           
         </p>
         <div class="linha">
-          <h3>Sequencia de cores:</h3>
+          <h3>Sequência de cores:</h3>
           
           <button id="bIniciarSequencia" class="btn">Ver Sequencia</button>
         </div>
