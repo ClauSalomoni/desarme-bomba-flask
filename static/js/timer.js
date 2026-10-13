@@ -16,12 +16,12 @@ function inicioTimer(botao){
     mostrarDesafio("desafio1")
     document.getElementById("bDesafio1").classList.remove("oculto");
 
+    ativarFios()
     intervalo = setInterval(() => {
         const minutos = Math.floor(tempo/60)
         const segundos = tempo % 60
         timerDisplay.innerHTML = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
         
-        ativarFios()
     if (tempo <= 0) {
         clearInterval(intervalo);
         pararSomTimer()
