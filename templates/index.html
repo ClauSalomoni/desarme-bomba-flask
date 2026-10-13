@@ -16,7 +16,7 @@
   <div class="container-botoes-linha">
   
     <div class="container-regras-nivel">
-      <button class="btn" onclick="mostrarRegrasJogo()" id="bRegras">Regras Jogo</button>
+      <button class="btn" onclick="mostrarRegrasJogo()" id="bRegras">Como Jogar</button>
       {% if nivel %}
         <div id="nivelJogo">
           Você está jogando o nível: <strong>{{ nivel }}</strong>
@@ -25,7 +25,7 @@
     </div>
        {% if not nivel %}
        <div class="container-niveis">
-      <p class="titulo-niveis">Escolha o nível de dificuldade:</p>
+      <p class="titulo-niveis">Escolha o nível Antes de Iniciar:</p>
         <form action="{{ url_for('escolher_nivel') }}" method="post">
           <button name="nivel" value="facil" class="btnnivel">Fácil</button>
           <button name="nivel" value="medio" class="btnnivel">Médio</button>
@@ -38,18 +38,19 @@
     </div>
 
     <div id="regrasJogo">
-      <h2>Vamos as Regras:</h2>
+      <button type="button" class="fechar-regras" id="fecharRegras" aria-label="Fechar regras">✕ Fechar</button>
+      <h2>Regras:</h2>
       <ul>
-        <li>Desarmar a bomba cortando os fios na ordem certa antes que o tempo acabe.</li>
-        <li>Para cortar os fios clique com o mouse na curvatura do fio (ponto mais alto).</li>
+        <li>Desarmar a bomba cortando os fios na ordem certa antes que o tempo de 5 minutos acabe.</li>
+        <li>Para cortar os fios clique no mesmo.</li>
         <li>Selecione um nível de dificuldade.</li>
-        <li>A bomba só será ativada depois de clicar no botão "Iniciar Timer".</li>
-        <li>Ao clicar em iniciar o tempo de 5 minutos começa.</li>
+        <li>O jogo inicia depois de clicar no botão: "Iniciar Timer".</li>
+        <!-- <li>Ao clicar em iniciar o tempo de 5 minutos começa.</li>
         <li>Assim que iniciar a contagem aparecerá o botão do primeiro desafio.</li>
-        <li>Serão 4 desafios. Acerte o desafio e o proximo estará disponível.</li>
-        <li>Resolva os desafios de forma correta e receberá uma dica sobre a ordem dos fios a serem cortados.</li>
-        <li>Resolva de forma errada e terá uma redução de 10 segundos no timer.</li>
-        <li>Vence quem consegue desarmar a bomba dentro do tempo estipulado.</li>
+        <li>Serão 4 desafios. Acerte o desafio e o proximo estará disponível.</li> -->
+        <li>Acerte o desafio e receba uma dica para cortar os fios na ordem certa.</li>
+        <li>Erre o desafio e perderá 10 segundos no timer.</li>
+        <li>Vence quem consegue desarmar a bomba dentro do tempo.</li>
         <li>Aos vencedores o direito de incluir o nome no Ranking. Os TOP 10 Aparecerão.</li>
       </ul>
     </div>
@@ -94,15 +95,13 @@
     <div class="desafio" id="desafio1">
       <button class="btn" id="bDesafio1">DESAFIO 1</button>
       <div id="palavra">
-        <p>Adivinhe a palavra. Digite com a ACENTUAÇÃO correta.
-          Se não souber clique em enviar. Uma nova palavra
-          aparecerá mas voce PERDERÁ 10 segundos no timer
-          Boa sorte!
+        <!-- <p>Adivinhe a palavra. Digite com a ACENTUAÇÃO.
+          Cada erro tira 10 segundos no timer -->
         </p>
         <div class="linha">
-          <h3>Palavra embaralhada:</h3>
+          <h3>Qual é a palavra?</h3>
           <p id="palavra-embaralhada"></p>
-          <h3>Dica da Palavra:</h3>    
+          <h3>Dica:</h3>    
           <p id="dica-palavra"></p>
         </div>
         <input type="text" id="respostaPalavra" autofocus placeholder="Digite a sua resposta:">
@@ -116,14 +115,13 @@
       
       <button class="btn" id="bCalculos">DESAFIO 2</button>
       <div id="calculo">
-        <p>Matemática.
-          Resolva a opreração matematica e digite o resultado.
-          Podem haver resultados NEGATIVOS! Boa sorte!
-        </p>
+        <!-- <p>Matemática.
+          Cuidado com resultados NEGATIVOS! Boa sorte!
+        </p> -->
         <div class="linha">
-          <h3>Conta Matemática:</h3>
+          <h3>Calcule:</h3>
           <p id="labelConta"></p>
-          <input type="number" id="conta" placeholder="Digite o resultado">
+          <input type="number" id="conta" placeholder="Digite Resultado">
         </div>
         <button class="btn" id="resultadoCalculo">Enviar</button>
         <p id="resultadoCalc"></p>
@@ -151,14 +149,13 @@
       
       <button class="btn" id="bDesafio4">DESAFIO 4</button>
       <div id="quadrados" class="oculto">
-          <p>Voce verá o quadrado maior mostrar uma sequência de cores. Voce
-          terá de identificar a sequencia de cores clicando os quadrados menores na sequencia correta
+          <p>Preste atenção na sequência do quadrado grande e clique nos quadrados menores na mesma ordem
           
         </p>
         <div class="linha">
-          <h3>Sequência de cores:</h3>
+          <!-- <h3>Sequência de cores:</h3> -->
           
-          <button id="bIniciarSequencia" class="btn">Ver Sequencia</button>
+          <button id="bIniciarSequencia" class="btn">VER SEQUÊNCIA</button>
         </div>
         
         <div class="containerQuadrados">

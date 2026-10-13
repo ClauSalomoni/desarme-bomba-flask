@@ -1,17 +1,16 @@
 
-//ver Deasfio func sortearPalavra para definir qual lista manter/facil ou nao
 const somErro = new Audio("static/sons/somErro.mp3")
 const somExplosao = new Audio("static/sons/somExpl.mp3")
 const somAplauso = new Audio("static/sons/aplausos.mp3")
 const somCorte = new Audio("static/sons/somCorte.mp3")
 const somFinal = new Audio("static/sons/somFinal.mp3")
 
-//LISTAS de palavras EXCLUIDAS para integrar os dados pelo BACK com FLASK
+
 function reproduzirSomErro(){
   somErro.play()
 }
 function reproduzirExpl(){
-  setTimeout(()=>{//faz um delay definido pelo tempo a seguir(em miliseg.)
+  setTimeout(()=>{
   
     somExplosao.play()
   },2350)
@@ -28,8 +27,21 @@ function reproduzirSomFinal(){
   somFinal.play()
 }
 
-// mudando ONCLICK por addEventListener:
 document.addEventListener("DOMContentLoaded", function() {
+    const regras = document.getElementById("regrasJogo");
+
+    document.getElementById("fecharRegras").addEventListener("click", fecharRegrasJogo);
+
+    document.addEventListener("click", (e) => {
+      if (!regras.classList.contains("visivel")) return;
+      if (regras.contains(e.target) || e.target.closest("#bRegras")) return;
+      fecharRegrasJogo();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") fecharRegrasJogo();
+    });
+
     // Listeners de botões
     document.getElementById("bDesafio1").addEventListener("click", sortearPalavra);
     document.getElementById("verResposta").addEventListener("click", verificarRespostaPalavra);
@@ -65,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 function mostrarDesafio(idDesafio) {
-  // Seleciona todos os elementos com a classe 'desafio'
   const desafios = document.querySelectorAll('.desafio');
   
   desafios.forEach(desafio => {
@@ -142,7 +153,7 @@ async function verificarRespostaPalavra(){
           },
           body: JSON.stringify({
               resposta: resposta,
-              palavra_atual: palavraOriginal // Variável que você já tem no front
+              palavra_atual: palavraOriginal 
           })
       });
         const resultado = await response.json();
@@ -168,6 +179,10 @@ function mostrarRegrasJogo(){
   const regrasJogo = document.getElementById("regrasJogo")
   regrasJogo.classList.toggle("visivel");
   
+}
+
+function fecharRegrasJogo() {
+  document.getElementById("regrasJogo").classList.remove("visivel");
 }
 
 
@@ -278,12 +293,12 @@ function verificarCoresUsuario(){
   const resultado = document.getElementById("resultadoSequencia");
   const acertou = JSON.stringify(coresUsuario) === JSON.stringify(sequenciaCores);
   if (acertou){
-    resultado.textContent = `Já é possível desarmar a bomba. Boa sorte!`
+    resultado.textContent = `Já é possível desarmar a bomba. Confira o guia. Boa sorte!`
     reproduzirAplausos()
     document.getElementById("dicaFio4").textContent = dicasFio[3]
     
   }else{
-    resultado.textContent = "Sequencia errada. Voce perdeu 10 segundos. Verifique o timer e tente novamente"
+    resultado.textContent = "Sequencia errada. Clique em ver sequencia novamente. Fique de olho no timer."
     tempo -= 10
     reproduzirSomErro()
     //iniciarSequenciaCores()
