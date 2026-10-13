@@ -443,6 +443,7 @@ button:disabled {
   border-radius: 50%;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45), 0 0 8px var(--c);
   animation: pulso 1.8s ease-out infinite;
+  animation-delay: 0s;
   pointer-events: none;
 }
 
@@ -493,7 +494,7 @@ button:disabled {
 .laranja { left: 56.5cqw; top: 3.63cqw; width: 5.85cqw; }
 .ciano   { left: 62.3cqw; top: 4.62cqw; width: 6.92cqw; }
 
-/* --- Timer (se não bater com o visor da bomba, ajuste left/top) --- */
+
 #timer-display {
   position: absolute;
   top: 32cqw;
