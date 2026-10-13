@@ -1,440 +1,643 @@
-/* AGORA VAI */
-/*AQUI COMECA BOMBA, Fios, e imagem Bomba explodida*/
-body{
-  background-color: white;
+
+/* ---------- 1. Variáveis (mude cores aqui) ---------- */
+:root {
+  color-scheme: dark;
+
+  --bg: #0a0e14;
+  --surface: #151c28;
+  --surface-2: #1d2636;
+  --surface-3: #243049;
+  --border: #2a3548;
+  --text: #e8edf5;
+  --muted: #8b97ab;
+
+  --danger: #ff3b4e;
+  --success: #22e07a;
+  --warning: #ffb020;
+
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+
+  /* Fundo do "cartão" da bomba. Se sua PNG for transparente e quiser
+     tema escuro, troque por: linear-gradient(145deg, #1a2233, #0e131c) */
+  --bomba-bg: radial-gradient(circle at 50% 35%, #ffffff 0%, #dfe5ee 100%);
+
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
 }
 
-.layout{
-position: relative;
-width: 500px; /* ajusta conforme imagem */
-height: 500px; /* ou altura da imagem da bomba */
-margin: 0 auto;
-margin-top: 10px;
+/* VER se ADD Tema claro ??? */
+/* :root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f1f4f9;
+  --surface: #ffffff;
+  --surface-2: #e8edf5;
+  --surface-3: #dce4ef;
+  --border: #c8d2e1;
+  --text: #202a3a;
+  --muted: #59677d;
+
+  --danger: #d9233d;
+  --success: #087f45;
+  --warning: #946000;
+
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+  --bomba-bg: radial-gradient(
+    circle at 50% 35%,
+    #ffffff 0%,
+    #e1e7ef 100%
+  );
+} */
+
+/* ---------- 2. Reset e base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--bg);
+}
 
-.titulo{
+body {
+  margin: 0 auto;
+  max-width: 1280px;
+  min-height: 100vh;
+  padding: clamp(12px, 3vw, 32px);
+  font-family: var(--font-ui);
+  line-height: 1.5;
+  color: var(--text);
+
+  /* Layout principal: 2 colunas no desktop */
+  display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 640px);
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      "titulo    titulo"
+      "controles bomba"
+      "dicas     bomba"
+      "painel    bomba";
+  gap: 20px 32px;
+  align-items: start;
+}
+
+body > * {
+  min-width: 0;
+}
+
+.titulo {
+  grid-area: titulo;
+  margin: 0;
+  padding-left: 0.25em; /* compensa o letter-spacing para centralizar */
   text-align: center;
-  letter-spacing: 10px;
-  line-height: 20px;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 40px;
-}
-
-.ponto {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  opacity: 0.7;
-}
-#fioverde { top: 55px; left: 561px; }
-#fioroxo { top: 59px; left: 598px; }
-#fioamarelo { top: 66px; left: 642px; }
-#fiolaranja { top: 73px; left: 680px;}
-#fiociano { top: 80px; left: 720px;}
-
-
-.imagem {
-position: absolute;
-margin-left: 300px;
-margin-top: 50px;
-width: 650px;
-z-index: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--text);
+  text-shadow: 0 0 24px rgba(255, 59, 78, 0.5);
 }
 
 
-.ciano {
-position: absolute;
-margin-left: 705px;
-margin-top: 80px ;
-width: 45px;
-z-index: 1;
-
-}
-
-.laranja {
-position: absolute;
-margin-left: 667.2px;
-margin-top: 73.6px ;
-width: 38px;
-z-index: 1;
-}
-
-.amarelo {
-position: absolute;
-margin-left: 630.2px;
-margin-top: 67.3px ;
-width: 38px;
-z-index: 1;
-}
-
-.roxo {
-position: absolute;
-margin-left: 585.7px;
-margin-top: 58px ;
-width: 38px;
-z-index: 1;
-}
-
-.verde {
-position: absolute;
-margin-left: 546.8px;
-margin-top: 53.6px ;
-width: 39.9px;
-z-index: 1;
-}
-
-.bomba-wrapper {
-position: relative;
-transform: scale(0.85); /* Reduz tudo proporcionalmente */
-transform-origin: center;
-margin-top: 10px;
-/* ou 'center' se quiser centralizar */
+#endmsg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 2000;
+  margin: 0;
+  padding: 0.6em 1em;
+  max-width: 90vw;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 6vw, 3.5rem);
+  letter-spacing: 0.05em;
+  color: var(--success);
+  background: rgba(5, 20, 12, 0.94);
+  border: 2px solid var(--success);
+  border-radius: var(--radius);
+  box-shadow: 0 0 60px rgba(34, 224, 122, 0.5);
+  pointer-events: none;
+  animation:
+    vitoria 0.8s cubic-bezier(0.2, 1.4, 0.4, 1) both,
+    sumir 0.6s ease 4s forwards;
 }
 
 
-.emoji {
-position: absolute;
-top: 0px;
-left: 520px;
-width: 220px;
-/* transform: translate(-50%, -50%); */
-z-index: 10;
-}
-
-.escondido {
-display: none;
-}
-#endmsg{
-animation: movimento 2s infinite;
-position: absolute;
-top: 400px;
-left: 530px;
-font-size: 10px;
-/* transform: translate(-50%, -50%); */
-z-index: 10;
-
-}
-@keyframes movimento {
-from {
-transform: scale(0.1); color:#fc0606;
-}
-to {
-transform: scale(7); color: #05f34c;
-}
-}
-
-
-#explosao{
-position: absolute;
-margin-left: 300px;
-margin-top: 50px;
-width: 650px;
-z-index: 1000;
-display: none;
-}
-
-
-
-
-.painelDesafios {
-position: absolute; /* tira do fluxo */
-top: 150px; /* ajusta para onde quer que comece, mais para cima */
-left: 100px; /* ajusta para lado da bomba */
-width: 600px; /* largura do painel */
-overflow-y: auto;
-height: 80vh;
-display: flex;
-flex-direction: column;
-gap: 20px; /* espaço entre os desafios */
-width: 40%;
-z-index: 1;
-/* pode adicionar fundo, borda, etc */
-}
-
-
-#intro{
-font-weight: 300;
-text-align: center;
-padding: 3px;
-font-size: x-large;
-}
-#timer-display{
-position: absolute;
-top: 245px;
-left: 428px;
-font-size: 100px;
-color: red;
-padding: 8px;
-border-radius: 8px;
-z-index: 2;
-background-color: black;
-transform: rotate(10deg);
-margin: 10px;
-}
-#bIniciar{
-color: white;
-font-size: larger;
-background-color: black;
-padding: 5px;
-border-radius: 10px;
-margin: 1px;
-
-}
-#bIniciar:hover{
-  color: black;
-  background-color: white;
-}
-
-
-#bReiniciar{
-  justify-content: center;  /* Centraliza horizontalmente */
-  align-items: center;
+.container-botoes-linha {
+  grid-area: controles;
   display: flex;
-  color: white;
-  font-size: larger;
-  background-color: black;
-  padding: 5px;
-  border-radius: 10px;
-  margin-top: 3px;
-  margin-left: 50px;
-  width: 180px;
-}
-#bReiniciar:hover{
-  color: black;
-  background-color: white;
-}
-
-
-
-
-#palavra {
-width: 70%; /* ocupa metade da tela, deixando espaço à direita */
-padding: 1px;
-box-sizing: border-box;
-margin-bottom: 10px;
-align-items:flex-start
-}
-
-.linha {
-box-sizing: border-box;
-
-align-items: center;
-margin-bottom: 6px;
-text-align: center;
-}
-
-
-.linha p{
-       /* ocupa o resto do espaço na linha */
-padding: 6px 10px;
-background-color: #f2f2f2;
-border-radius: 6px;
-border: 1px solid #333;
-min-height: 10px; 
-box-sizing: border-box;
-
-}
-
-.linha h3 {
-text-align: center;
-margin-bottom: 10px;
-font-size: 24px;
-  /* largura fixa para alinhar os labels */
-font-weight: bold;
-color: #333;
-
-}
-
-
-#labelConta,
-#respostaPalavra,
-#respostaPalavraD,
-#conta,
-#palpiteNumSort {
-width: 50%;
-padding: 10px;
-font-size: large;
-margin-top: 10px;
-box-sizing: border-box;
-border: 1px solid #ccc;
-border-radius: 8px;
-display: block;
-margin: 10px auto;
-}
-#nivelJogo{
-  color: black;
-  font-size: 20px;
-  
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 .container-regras-nivel {
   display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin: 0;
 }
 
-#regrasJogo{
-display: none;
-position: absolute;
-background-color: lch(82.5% 63.37 128.65);
-text-align: justify;
-border: solid#333;
-border-radius: 8px;
-padding: 20px;
-margin-top: 10px;
-margin-bottom: 1px;
-margin-left: 1px;
-margin-right: 100px;
-z-index: 1000;
-}
-#regrasJogo.visivel{
-display: block;
-
-}
-.container-botoes-linha {
-  display: flex;
-  gap: 1rem; /* Espaço entre os botões e elementos */
-  align-items: center; /* Alinha verticalmente ao centro */
+#nivelJogo {
+  font-size: 0.95rem;
+  color: var(--muted);
 }
 
-.btn{
-color: white;
-font-size: larger;
-background-color: black;
-padding: 5px;
-border-radius: 10px;
-text-align: center;
-margin: 1px;
+#nivelJogo strong {
+  color: var(--warning);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
-.btn:hover{
-background-color: white;
-color: black;
+
+.container-niveis {
+  flex: 1 1 100%;
+}
+
+.titulo-niveis {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.container-niveis form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
 
 
-.btnnivel{
-  color: white;
-  font-size: larger;
-  background-color: black;
-  padding: 5px;
-  border-radius: 10px;
+button {
+  font: inherit;
+}
+
+.btn,
+.btnnivel,
+#bIniciar,
+#bReiniciar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 44px; /* alvo de toque confortável */
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: 600;
   text-align: center;
-  margin: 1px;
-  position: relative; /* para poder usar z-index */
-  z-index: 10; /
-
-}
-.btnnivel:hover{
-  background-color: white;
-  color: black;
-
-}
-
-#areaDicas{
-width: 650px; /* mesma largura da bomba */
-margin-left: 600px; /* centraliza horizontalmente */
-text-align: center;
-padding: 5px;
-border-radius: 10px;
-animation: destaqueTexto .8s infinite alternate;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-@keyframes destaqueTexto {
-from {
-color: #243104;
-}
-to {
-color: #f80303;
-}
-}
-.containerQuadrados {
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-gap: 10px; /* Espaço entre o quadrado maior e os menores */
-margin-top: 10px;
+.btn:hover,
+.btnnivel:hover,
+#bReiniciar:hover {
+  background: var(--surface-3);
+  border-color: #3d4d6b;
+  transform: translateY(-1px);
 }
 
-#areaQuadrados{     
-display: flex;
-flex-direction: row;
-
-gap: 10px;
-margin: 20px auto;
-color: #000;
-border-radius: 8px;
+.btn:active,
+.btnnivel:active,
+#bIniciar:active,
+#bReiniciar:active {
+  transform: translateY(0) scale(0.98);
 }
-#quadrados {
+
+.btn:focus-visible,
+.btnnivel:focus-visible,
+#bIniciar:focus-visible,
+#bReiniciar:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--warning);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+
+#bIniciar {
+  margin-left: auto;
+  color: #fff;
+  background: linear-gradient(180deg, #ff4d5e, #d91f33);
+  border-color: #ff6b79;
+  box-shadow: 0 4px 16px rgba(255, 59, 78, 0.35);
+}
+
+#bIniciar:hover:not(:disabled) {
+  background: linear-gradient(180deg, #ff6372, #e8283c);
+  box-shadow: 0 6px 22px rgba(255, 59, 78, 0.5);
+}
+
+#bReiniciar {
+  width: 100%;
+  max-width: 220px;
+  margin: 8px auto 0;
+}
+
+/* Botões de ação positiva (Enviar) */
+#verResposta,
+#resultadoCalculo,
+#bResultadoPalpite,
+#verRespostaSequencia {
+  color: #04170c;
+  background: var(--success);
+  border-color: #5df0a3;
+}
+
+#verResposta:hover,
+#resultadoCalculo:hover,
+#bResultadoPalpite:hover,
+#verRespostaSequencia:hover {
+  background: #3df08c;
+  border-color: #8af5bd;
+}
+
+#verResposta,
+#resultadoCalculo,
+#bResultadoPalpite {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* ---------- 7. Modal de regras ---------- */
+#regrasJogo {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  margin: 0;
+  padding: 24px 28px;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--warning);
+  border-radius: var(--radius);
+  transform: translate(-50%, -50%);
+  /* o 1º shadow escurece o resto da tela (sem capturar cliques) */
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.65), 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+#regrasJogo.visivel {
+  display: block;
+  animation: entrar 0.25s ease both;
+}
+
+#regrasJogo h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--warning);
+}
+
+#regrasJogo ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+#regrasJogo li {
+  margin-bottom: 8px;
+  color: #cfd7e6;
+  font-size: 0.95rem;
+}
+
+/* ---------- 8. Guia de desarme (dicas) ---------- */
+#areaDicas {
+  grid-area: dicas;
+  position: relative;
+  z-index: 2;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+#areaDicas h2 {
+  margin: 0 0 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--warning);
+}
+
+#areaDicas p {
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text);
+  background: #0d131c;
+  border-left: 3px solid var(--danger);
+  border-radius: 8px;
+}
+
+#areaDicas p:last-child {
+  margin-bottom: 0;
+}
+
+/* dica ainda não liberada */
+#areaDicas p:empty {
+  color: var(--muted);
+  font-style: italic;
+  border-left-color: var(--border);
+}
+
+#dicaFio1:empty::before { content: "🔒 Dica 1 — resolva o Desafio 1"; }
+#dicaFio2:empty::before { content: "🔒 Dica 2 — resolva o Desafio 2"; }
+#dicaFio3:empty::before { content: "🔒 Dica 3 — resolva o Desafio 3"; }
+#dicaFio4:empty::before { content: "🔒 Dica 4 — resolva o Desafio 4"; }
+
+/* pisca uma vez quando a dica é liberada */
+#areaDicas p:not(:empty) {
+  animation: dicaNova 1s ease;
+}
+
+/* ---------- 9. Bomba (escala com a largura via cqw) ---------- */
+.layout {
+  grid-area: bomba;
+  position: sticky;
+  top: 16px;
+  align-self: start;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 12px;
+  background: var(--bomba-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  z-index: 1;
+}
+
+.bomba-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  container-type: inline-size; /* 1cqw = 1% da largura da bomba */
+}
+
+.imagem {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* --- Pontos clicáveis (convertidos das suas coordenadas originais) --- */
+.ponto {
+  --c: #fff;
+  position: absolute;
+  z-index: 5;
+  width: 5.2cqw;
+  height: 9cqw; /* área de toque mais alta: fios são muito próximos */
+  border-radius: 50%;
+  cursor: pointer;
+  translate: -50% -50%;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* anel pulsante: mostra ao jogador onde clicar */
+.ponto::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(3.2cqw, 14px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border: 2px solid var(--c);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45), 0 0 8px var(--c);
+  animation: pulso 1.8s ease-out infinite;
+  pointer-events: none;
+}
+
+.ponto:hover::after {
+  background: color-mix(in srgb, var(--c) 35%, transparent);
+  animation-play-state: paused;
+  scale: 1.25;
+}
+
+.ponto:active::after {
+  scale: 0.9;
+}
+
+/* opcional: se seu JS adicionar uma destas classes ao cortar, o ponto some */
+.ponto.cortado,
+.ponto.desativado {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+#fioverde   { --c: #22c55e; left: 41.7cqw;  top: 2.3cqw; }
+#fioroxo    { --c: #a855f7; left: 47.4cqw;  top: 2.9cqw; }
+#fioamarelo { --c: #facc15; left: 54.2cqw;  top: 4.0cqw; }
+#fiolaranja { --c: #fb923c; left: 60.0cqw;  top: 5.1cqw; }
+#fiociano   { --c: #22d3ee; left: 66.2cqw;  top: 6.2cqw; }
+
+/* --- Imagens dos fios cortados --- */
+#fioVerdeCortado,
+#fioRoxoCortado,
+#fioAmareloCortado,
+#fioLaranjaCortado,
+#fioCianoCortado {
+  position: absolute;
+  z-index: 4;
+  height: auto;
+  margin: 0;
+  pointer-events: none;
+}
+
+.bomba-wrapper img[src=""],
+.bomba-wrapper img:not([src]) {
+  display: none; /* evita o ícone de imagem quebrada */
+}
+
+.verde   { left: 38.0cqw; top: 0.55cqw; width: 6.14cqw; }
+.roxo    { left: 43.9cqw; top: 1.23cqw; width: 5.85cqw; }
+.amarelo { left: 50.8cqw; top: 2.66cqw; width: 5.85cqw; }
+.laranja { left: 56.5cqw; top: 3.63cqw; width: 5.85cqw; }
+.ciano   { left: 62.3cqw; top: 4.62cqw; width: 6.92cqw; }
+
+/* --- Timer (se não bater com o visor da bomba, ajuste left/top) --- */
+#timer-display {
+  position: absolute;
+  top: 32cqw;
+  left: 20cqw;
+  z-index: 6;
+  margin: 0;
+  padding: 0.4cqw 1.3cqw;
+  font-family: var(--font-mono);
+  font-size: 11cqw;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  color: #ff2a2a;
+  background: #000;
+  border: 1.5cqw solid silver;
+  border-radius: 1.2cqw;
+  text-shadow: 0 0 1.5cqw rgba(255, 42, 42, 0.85);
+  transform: rotate(10deg);
+}
+
+#timer-display:empty {
+  display: none;
+}
+
+/* --- Emoji de derrota e explosão --- */
+.emoji {
+  position: absolute;
+  top: 0;
+  left: 33.8cqw;
+  z-index: 10;
+  width: 33.8cqw;
+  height: auto;
+  pointer-events: none;
+}
+
+.escondido {
+  display: none;
+}
+
+/* ---------- Explosão: aparece por cima de tudo ---------- */
+.layout:has(#explosao[style*="display: block"]) {
+  z-index: 5;                      /* acima das dicas, caso a explosão passe do cartão */
+  animation: tremer 0.45s ease 2;  /* treme duas vezes */
+}
+
+/* esconde a bomba, os pontos, os fios cortados e o timer */
+.layout:has(#explosao[style*="display: block"]) .imagem {
+  opacity: 0;
+}
+
+.layout:has(#explosao[style*="display: block"]) .ponto,
+.layout:has(#explosao[style*="display: block"]) #timer-display,
+.layout:has(#explosao[style*="display: block"]) #fioVerdeCortado,
+.layout:has(#explosao[style*="display: block"]) #fioRoxoCortado,
+.layout:has(#explosao[style*="display: block"]) #fioAmareloCortado,
+.layout:has(#explosao[style*="display: block"]) #fioLaranjaCortado,
+.layout:has(#explosao[style*="display: block"]) #fioCianoCortado {
+  display: none !important;
+}
+
+/* explosão maior que a bomba, para ocupar o cartão inteiro */
+#explosao {
+  top: -15%;
+  left: -15%;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+}
+
+@keyframes tremer {
+  0%, 100% { translate: 0 0; }
+  20%      { translate: -6px 3px; }
+  40%      { translate: 6px -3px; }
+  60%      { translate: -4px -2px; }
+  80%      { translate: 4px 2px; }
+}
+
+/* ---------- 10. Painel de desafios ---------- */
+.painelDesafios {
+  grid-area: painel;
   display: flex;
-  flex-direction: column; /* empilha verticalmente */
-  gap: 15px; /* espaço vertical entre elementos */
-  width: 70%;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
 }
 
-#quadradoMaior{
-width: 70px;
-height: 70px;
-border: 2px solid black;
-margin: 20px;
-background-color: white;
-display: flex;
-border-radius: 8px;
-justify-content: center;
-align-items: center;
-margin-left: 10px;
-
+.desafio {
+  display: none; /* o JS adiciona .ativo */
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
-
-.celulas{
-height: 40px;
-width: 40px;
-color: #000;      
-border: 3px solid;
-display: flex;
-transition: transform 0.2s ease;
-cursor: pointer;
-border-radius: 8px;
-}
-#bIniciarSequencia{
-margin-left: 0px;
-}
-
-.desafio { 
-  display: none; 
-}
 #desafio1.ativo,
 #desafio2.ativo,
 #desafio3.ativo {
   display: block;
+  animation: entrar 0.35s ease both;
 }
 
-/* Desafio 4 exibido como flex */
 #desafio4.ativo {
   display: flex;
-  flex-direction: row;
-}
-.oculto {
-  display: none !important;
+  flex-direction: column;
+  gap: 12px;
+  animation: entrar 0.35s ease both;
 }
 
-.btn.oculto { 
-  display: none; }
+/* botão-título de cada desafio */
+.desafio > .btn {
+  width: 100%;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--warning);
+  border-color: rgba(255, 176, 32, 0.4);
+}
 
-#palavra, #calculo, #numeros, #quadrados, #quadradoMaior {
+.desafio p {
+  margin: 12px 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/* estados controlados pelo JS */
+#palavra,
+#calculo,
+#numeros,
+#quadrados,
+#quadradoMaior {
   display: none;
 }
-#palavra.visivel, #calculo.visivel, #numeros.visivel {
+
+#palavra.visivel,
+#calculo.visivel,
+#numeros.visivel {
   display: block;
 }
+
 #quadrados.visivel {
   display: flex;
-  flex-direction: column; /* ou row, conforme seu layout */
+  flex-direction: column;
   gap: 10px;
 }
 
@@ -444,3 +647,192 @@ margin-left: 0px;
   align-items: center;
 }
 
+.oculto,
+.btn.oculto {
+  display: none !important;
+}
+
+/* blocos de pergunta */
+.linha {
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.linha h3 {
+  margin: 12px 0 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+
+.linha p {
+  min-height: 44px;
+  margin: 0 0 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  background: #0d131c;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  word-break: break-word;
+}
+
+#palavra-embaralhada,
+#labelConta {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--warning);
+}
+
+/* campos de resposta */
+.desafio input[type="text"],
+.desafio input[type="number"] {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin: 10px 0;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 1rem; /* 16px evita zoom automático no iPhone */
+  text-align: center;
+  color: var(--text);
+  background: #0d131c;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.desafio input::placeholder {
+  color: #5d6a80;
+}
+
+.desafio input:focus {
+  outline: none;
+  border-color: var(--warning);
+  box-shadow: 0 0 0 3px rgba(255, 176, 32, 0.2);
+}
+
+/* mensagens de resultado */
+#resultado,
+#resultadoCalc,
+#resultadoPalpite,
+#resultadoSequencia {
+  min-height: 1.4em;
+  margin: 12px 0 0;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text);
+}
+
+#registroPalpites {
+  margin: 4px 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ---------- 11. Desafio 4: sequência de cores ---------- */
+#desafio4 .linha {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#desafio4 .linha h3 {
+  flex: 1 1 100%;
+  margin-bottom: 0;
+}
+
+#bIniciarSequencia {
+  margin: 0;
+}
+
+.containerQuadrados {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 12px 0;
+}
+
+#quadradoMaior {
+  width: 84px;
+  height: 84px;
+  margin: 0;
+  background: #fff;
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.12);
+}
+
+#areaQuadrados {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.celulas {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.celulas:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.25);
+}
+
+.celulas:active {
+  transform: scale(0.94);
+}
+
+/* ---------- 12. Animações ---------- */
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* mantém translate(-50%,-50%) do modal durante a animação */
+#regrasJogo.visivel {
+  animation-name: entrarModal;
+}
+
+@keyframes entrarModal {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 8px)); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+@keyframes pulso {
+  0%   { scale: 0.7; opacity: 0.95; }
+  70%  { scale: 1.5; opacity: 0; }
+  100% { scale: 1.5; opacity: 0; }
+}
+
+@keyframes dicaNova {
+  0%   { background: rgba(255, 59, 78, 0.35); }
+  100% { background: #0d131c; }
+}
+
+@keyframes vitoria {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes sumir {
+  to { opacity: 0; visibility: hidden; }
+}

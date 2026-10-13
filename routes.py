@@ -96,7 +96,7 @@ def iniciar_adivinha():
     session['registro_palpite'] = []
 
     return jsonify({
-        'msg': f'Um número entre 0 e 100 foi sorteado. Você tem {num_tentativas} tentativas. Boa sorte!'
+        'msg': f'Número entre 0 e 100. Você terá {num_tentativas} tentativas. Boa sorte!'
     })
 
 

@@ -1,230 +1,112 @@
-@media (max-width: 768px) {
- 
-  #explosao {
-  position: absolute;
-  top: 10%;           /* Ajuste para posicionar verticalmente dentro da bomba */
-  left: 50%;          /* Centraliza horizontalmente dentro da bomba */
-  transform: translateX(-50%); /* Centraliza exatamente o centro da imagem */
-  width: 80vw;        /* Tamanho proporcional à viewport — ajusta conforme necessário */
-  max-width: 400px;   /* Limita para não ultrapassar o tamanho da bomba */
-  height: auto;       /* Mantém proporção da imagem */
-  z-index: 1010;      /* Fica na frente */
-  display: none;      /* Mantém oculto até a explosão */
-  margin: 0;          /* Remove margens que podem atrapalhar */
-}
-
-.layout {
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Contêiner da bomba */
-.bomba-wrapper {
-  position: relative;
-  width: 90vw;
-  max-width: 400px;
-  aspect-ratio: 4 / 3; /* mantém proporção da bomba */
-  margin: 30px auto 0 auto; /* centraliza e separa da área de desafio */
-  transform-origin: top center;
-  z-index: 1;
-}
-
-/* Imagem da bomba ocupa toda a área do wrapper */
-.imagem {
-  margin-left: 0 !important;
-  margin-top: 0 !important;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* OU 'cover' se quiser preencher o espaço todo */
-  display: block;
-  z-index: 0;
-}
-
-/* Posição dos pontos clicáveis */
-.ponto {
-  position: absolute;
-  width: 5%;
-  height: 7%;
-  z-index: 2;
-}
-
-/* Timer */
-#timer-display {
-  position: absolute;
-  top: 55%;
-  left: 37%;
-  transform: translate(-50%, -50%) rotate(10deg);
-  font-size: 10vw;
-  color: red;
-  z-index: 3;
-}
-
-  /* Posicionamento dos fios no mobile */
-  #fioverde   { top: 2%;  left: 39%; }
-  #fioroxo    { top: 3%;  left: 45%; }
-  #fioamarelo { top: 5%;  left: 51.5%; }
-  #fiolaranja { top: 7%;  left: 57.5%; }
-  #fiociano   { top: 8%;  left: 64%;}
-
-  #fioVerdeCortado,
-  #fioRoxoCortado,
-  #fioAmareloCortado,
-  #fioLaranjaCortado,
-  #fioCianoCortado {
-  margin-left: 0 !important;
-  margin-top: 0 !important;
-  position: absolute;
-  width: 5vw; /* ajuste conforme o tamanho desejado */
-  height: auto;
-  z-index: 1000;
-}
-
-/* Ajustes de posição individuais */
-  #fioVerdeCortado  { top: 2%;  left: 39%; }
-  #fioRoxoCortado    { top: 3%;  left: 45%; }
-  #fioAmareloCortado { top: 5%;  left: 51.5%; }
-  #fioLaranjaCortado { top: 7%;  left: 57.5%; }
-  #fioCianoCortado   { top: 8%;  left: 64%;}
-
-.painelDesafios {
-  position: static; /* flui com a página */
-  width: 90vw;
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 0; /* sem padding */
-  box-sizing: border-box;
-  background-color: transparent; /* sem fundo */
-  border-radius: 0; /* sem borda arredondada */
-  box-shadow: none; /* sem sombra */
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px; /* espaçamento entre elementos */
-  
-  max-height: none; /* remove limite de altura */
-  overflow-y: visible; /* sem scroll */
-}
-#desafio1 {
-   
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-  }
-#desafio1 input{
-    width: 100%;         /* ocupa toda a largura do container */
-    max-width: 100%;     /* garante que não ultrapasse o container */
-    padding: 10px 12px; 
-}
-
-.painelDesafios .linha,
-.painelDesafios .desafio {
-  width: 100%;
-  text-align: center;
-}
-
-.painelDesafios input,
-.painelDesafios select {
-  width: 90%;
-  max-width: 350px;
-  font-size: 1rem;
-  padding: 8px 12px;
-  margin: 10px auto;
-  box-sizing: border-box;
-  display: block;
-}
-
-.painelDesafios button {
-  width: auto;
-  min-width: 120px;
-  max-width: 200px;
-  font-size: 1rem;
-  padding: 8px 15px;
-  margin: 10px auto;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: block;
-}
-
-  #areaDicas {
-    width: 90vw;
-    margin: 10px auto;
-    text-align: center;
+@media (max-width: 960px) {
+  body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      "titulo"
+      "controles"
+      "bomba"
+      "dicas"
+      "painel";
+    gap: 16px;
   }
 
-  .containerQuadrados {
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+  .layout {
+    position: static; /* sem sticky em tela pequena */
+    max-width: 560px;
   }
 
-  #quadradoMaior {
-    width: 15vw;
-    height: 15vw;
-    margin: 10px auto;
-  }
-
-  #areaQuadrados {
-    flex-wrap: nowrap;
-    justify-content: center;
-  }
-
-  .celulas {
-    width: 40px;
-    height: 40px;
-  }
-
-  #quadrados {
+  .container-botoes-linha,
+  #areaDicas,
+  .painelDesafios {
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    max-width: 640px;
+    margin-inline: auto;
   }
-
-  #bIniciarSequencia {
-    margin: 15px auto;
-  }
-  #desafio4 .linha:nth-of-type(2){
-  display: flex;
-  justify-content: center; /* centraliza horizontalmente */
-  gap: 10px; /* espaço entre os botões */
-  flex-wrap: nowrap; /* evita quebra para a próxima linha */
 }
 
-  h1.titulo {
-    font-size: 1.5em;
-    text-align: center;
+/*  Celular  */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+    gap: 12px;
+  }
+
+  .titulo {
+    letter-spacing: 0.12em;
+    padding-left: 0.12em;
+  }
+
+  .layout {
+    padding: 6px;
+    border-radius: 14px;
   }
 
   .container-botoes-linha {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    padding: 12px;
   }
 
+  .container-regras-nivel {
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+
+  #bIniciar {
+    flex: 1 1 100%;
+    margin-left: 0;
+  }
+
+  .container-niveis form {
+    grid-template-columns: 1fr;
+  }
+
+  .desafio {
+    padding: 12px;
+  }
+
+  #regrasJogo {
+    padding: 18px;
+  }
+
+  #palavra-embaralhada,
+  #labelConta {
+    font-size: 1.25rem;
+    letter-spacing: 0.12em;
+  }
+
+  .celulas {
+    width: 44px;
+    height: 44px;
+  }
+
+  #quadradoMaior {
+    width: 72px;
+    height: 72px;
+  }
 }
 
-.desafio {
-    display: none !important;  /* escondido por padrão */
+/* ---------- Celular deitado (pouca altura) ---------- */
+@media (max-height: 500px) and (orientation: landscape) {
+  #regrasJogo {
+    max-height: calc(100dvh - 24px);
   }
+}
 
-  #desafio1.ativo,
-  #desafio2.ativo,
-  #desafio3.ativo {
-    display: block !important;
+/* ---------- Telas touch: anel dos fios sempre visível ---------- */
+@media (hover: none) {
+  .ponto:hover::after {
+    background: transparent;
+    scale: 1;
   }
+}
 
-  #desafio4.ativo {
-    display: flex !important;
-    flex-direction: column; /* se quiser mudar layout no mobile */
-    gap: 10px;
+/* ---------- Acessibilidade: reduzir movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
+}

@@ -63,7 +63,7 @@ function mostrarCalculo(){
       operacao1: operacao1
     };
 
-    document.getElementById("labelConta").textContent = `Calcule: ${a} ${operacao1} ${b}:`;
+    document.getElementById("labelConta").textContent = ` ${a} ${operacao1} ${b} =`;
     
   } else {
     const operacao2 = operacoesDisponiveis[Math.floor(Math.random() * operacoesDisponiveis.length)];
